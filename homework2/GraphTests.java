@@ -1,6 +1,8 @@
 package homework2;
 
 import org.junit.Test;
+import tests.ScriptFileTests;
+
 import java.util.Set;
 import static org.junit.Assert.*;
 import java.util.HashSet;

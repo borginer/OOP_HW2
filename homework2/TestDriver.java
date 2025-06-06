@@ -17,7 +17,7 @@ public class TestDriver {
 	// TODO: Parameterize the next line correctly.
   	private final Map<String, Graph> graphs = new HashMap<>();
   	// String -> WeightedNode: maps the names of nodes to the actual node
-  	private final Map<String,WeightedNode> nodes = new HashMap<>();
+  	private final Map<String, WeightedNode> nodes = new HashMap<>();
 	private final BufferedReader input;
   	private final PrintWriter output;
 
@@ -93,6 +93,7 @@ public class TestDriver {
     	} catch (Exception e) {
       		output.println("Exception: " + e.toString());
     	}
+		output.flush();
   	}
 
 
