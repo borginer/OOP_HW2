@@ -1,0 +1,33 @@
+# dry graph: A(2), B(1), C(3), D(1), E(4)
+CreateNode A 2
+CreateNode B 1
+CreateNode C 3
+CreateNode D 1
+CreateNode E 4
+
+CreateGraph G
+
+AddNode G A
+AddNode G B
+AddNode G C
+AddNode G D
+AddNode G E
+
+# directed edges
+AddEdge G A B
+AddEdge G A C
+AddEdge G B D
+AddEdge G B C
+AddEdge G C D
+AddEdge G C E
+AddEdge G D E
+
+# (optional) inspection commands
+ListNodes G
+ListChildren G A
+ListChildren G B
+ListChildren G C
+ListChildren G D
+
+# query: shortest path from A to E
+FindPath G A -> E

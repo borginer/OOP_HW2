@@ -343,7 +343,6 @@ public class TestDriver {
 							Files.newBufferedReader(testsFile, Charset.forName("US-ASCII")),
 							new OutputStreamWriter(System.out));
 				} else {
-					System.err.println("Cannot read from " + testsFile.toString());
 					printUsage();
 					return;
 				}
