@@ -15,7 +15,7 @@ public class TestDriver {
 
 	// String -> Graph: maps the names of graphs to the actual graph
 	// TODO: Parameterize the next line correctly.
-  	private final Map<String,          > graphs = new HashMap<>();
+  	private final Map<String, Graph> graphs = new HashMap<>();
   	// String -> WeightedNode: maps the names of nodes to the actual node
   	private final Map<String,WeightedNode> nodes = new HashMap<>();
 	private final BufferedReader input;
@@ -110,6 +110,8 @@ public class TestDriver {
   	private void createGraph(String graphName) {
   		
   		//TODO: Insert your code here.
+		graphs.put(graphName, new Graph());
+    	output.println("created graph " + graphName);
   		
   		// graphs.put(graphName, ___);
   		// output.println(...);
@@ -132,6 +134,10 @@ public class TestDriver {
  	private void createNode(String nodeName, String cost) {
 
  		// TODO: Insert your code here.
+		int parsedCost = Integer.parseInt(cost);
+    	WeightedNode node = new WeightedNode(nodeName, parsedCost);
+    	nodes.put(nodeName, node);
+    	output.println("created node " + nodeName + " with cost " + cost);
  		
  		// nodes.put(nodeName, ___);
  		// output.println(...);
@@ -154,6 +160,10 @@ public class TestDriver {
   	private void addNode(String graphName, String nodeName) {
 
   		// TODO: Insert your code here.
+		Graph g = graphs.get(graphName);
+    	WeightedNode node = nodes.get(nodeName);
+    	g.addNode(node.getName(), node.getCost());
+    	output.println("added node " + nodeName + " to " + graphName);
   		 
   		// ___ = graphs.get(graphName);
   		// ___ = nodes.get(nodeName);
@@ -178,7 +188,10 @@ public class TestDriver {
 	private void addEdge(String graphName, String parentName, String childName) {
 		
 		// TODO: Insert your code here.
-		  
+		Graph g = graphs.get(graphName);
+    	g.addEdge(parentName, childName);
+    	output.println("added edge from " + parentName + " to " + childName + " in " + graphName);
+		
 		// ___ = graphs.get(graphName);
 		// ___ = nodes.get(parentName);
 		// ___ = nodes.get(childName);
@@ -201,6 +214,12 @@ public class TestDriver {
   	private void listNodes(String graphName) {
   		
   		// TODO: Insert your code here.
+		Graph g = graphs.get(graphName);
+    	output.print(graphName + " contains:");
+    	for (String nodeName : g.listNodes()) {
+        	output.print(" " + nodeName);
+    	}
+    	output.println();
   		   
   		// ___ = graphs.get(graphName);
   		// output.println(...);
@@ -223,6 +242,12 @@ public class TestDriver {
   	private void listChildren(String graphName, String parentName) {
 
   		// TODO: Insert your code here.
+    	Graph g = graphs.get(graphName);
+    	output.print("the children of " + parentName + " in " + graphName + " are:");
+    	for (String childName : g.listChildren(parentName)) {
+        	output.print(" " + childName);
+    	}
+    	output.println();
   		    
   		// ___ = graphs.get(graphName);
   		// ___ = nodes.get(parentName);
