@@ -3,6 +3,9 @@ package homework2;
 import org.junit.Test;
 import java.util.Set;
 import static org.junit.Assert.*;
+import java.util.HashSet;
+import java.util.Arrays;
+
 
 
 
@@ -25,7 +28,7 @@ public class GraphTests extends ScriptFileTests {
     public void testAddSingleNode() {
         Graph g = new Graph();
         g.addNode("A", 5);
-        assertEquals(Set.of("A"), g.listNodes());
+        assertEquals(new HashSet<>(Arrays.asList("A")), g.listNodes());
         assertEquals(5, g.getCost("A"));
     }
 
@@ -38,7 +41,7 @@ public class GraphTests extends ScriptFileTests {
         g.addEdge("A", "B");
 
         Set<String> children = g.listChildren("A");
-        assertEquals(Set.of("B"), children);
+        assertEquals(new HashSet<>(Arrays.asList("B")), children);
     }
 
     // test for checking if the list of nodes is sorted
@@ -49,7 +52,7 @@ public class GraphTests extends ScriptFileTests {
         g.addNode("A", 2);
         g.addNode("B", 3);
 
-        assertEquals(Set.of("A", "B", "C"), g.listNodes());  
+        assertEquals(new HashSet<>(Arrays.asList("A", "B", "C")), g.listNodes());
     }
 
     //  test for trying to add duplicate node name
@@ -57,7 +60,7 @@ public class GraphTests extends ScriptFileTests {
     public void testDuplicateNodeThrows() {
         Graph g = new Graph();
         g.addNode("X", 5);
-        g.addNode("X", 10);  // should throw exeption
+        g.addNode("X", 10);  // should throw exception
     }
 
     // test for getting an empty list of children
