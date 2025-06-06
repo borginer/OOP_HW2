@@ -3,6 +3,7 @@ package homework2;
 import org.junit.Test;
 import tests.ScriptFileTests;
 
+import java.util.List;
 import java.util.Set;
 import static org.junit.Assert.*;
 import java.util.HashSet;
@@ -73,4 +74,87 @@ public class GraphTests extends ScriptFileTests {
         assertTrue(g.listChildren("Solo").isEmpty());
     }
 
+    // test most simple path between two connected nodes
+    @Test
+    public void testShortestPathDirectConnection() {
+        Graph g = new Graph();
+        g.addNode("A", 1);
+        g.addNode("B", 2);
+        g.addEdge("A", "B");
+
+        List<String> starts = List.of("A");
+        List<String> goals = List.of("B");
+
+        WeightedNodePath path = PathFinder.findShortestPath(g, starts, goals);
+        assertNotNull(path);
+        assertEquals(3.0, path.getCost(), 0.001);
+        assertEquals("B", path.getEnd().getName());
+    }
+
+    // test path in chain of nodes
+    @Test
+    public void testShortestPathViaIntermediate() {
+        Graph g = new Graph();
+        g.addNode("A", 1);
+        g.addNode("B", 2);
+        g.addNode("C", 3);
+        g.addEdge("A", "B");
+        g.addEdge("B", "C");
+
+        List<String> starts = List.of("A");
+        List<String> goals = List.of("C");
+
+        WeightedNodePath path = PathFinder.findShortestPath(g, starts, goals);
+        assertNotNull(path);
+        assertEquals(6.0, path.getCost(), 0.001);
+        assertEquals("C", path.getEnd().getName());
+    }
+
+    // test no path available
+    @Test
+    public void testNoPathToGoal() {
+        Graph g = new Graph();
+        g.addNode("A", 1);
+        g.addNode("B", 2);
+        g.addNode("C", 3);
+        g.addEdge("A", "B");
+        // no edge to C
+
+        List<String> starts = List.of("A");
+        List<String> goals = List.of("C");
+
+        WeightedNodePath path = PathFinder.findShortestPath(g, starts, goals);
+        assertNull(path);
+    }
+
+    // test from dry example
+    @Test
+    public void testShortestPathComplexGraph_AtoE() {
+        Graph g = new Graph();
+
+        // Add nodes with their costs
+        g.addNode("A", 2);
+        g.addNode("B", 1);
+        g.addNode("C", 3);
+        g.addNode("D", 1);
+        g.addNode("E", 4);
+
+        // Add directed edges
+        g.addEdge("A", "B");
+        g.addEdge("A", "C");
+        g.addEdge("B", "D");
+        g.addEdge("B", "C");
+        g.addEdge("C", "D");
+        g.addEdge("C", "E");
+        g.addEdge("D", "E");
+
+        List<String> starts = List.of("A");
+        List<String> goals = List.of("E");
+
+        WeightedNodePath path = PathFinder.findShortestPath(g, starts, goals);
+        assertNotNull(path);
+        System.out.println(path);
+        assertEquals(8.0, path.getCost(), 0.001);
+        assertEquals("[WeightedNodePath: [A: 2], [B: 1], [D: 1], [E: 4]]", path.toString());
+    }
 }

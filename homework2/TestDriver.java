@@ -296,9 +296,16 @@ public class TestDriver {
 
   	private void findPath(String graphName, List<String> sourceArgs,
   						  List<String> destArgs) {
-  		
-  		// TODO: Insert your code here.
-  		   
+  		Graph g = graphs.get(graphName);
+		WeightedNodePath shortestPath = PathFinder.findShortestPath(g, sourceArgs, destArgs);
+  		output.print("shortest path in " + graphName + ":");
+		if (shortestPath != null) {
+			for (WeightedNode n: shortestPath) {
+				output.print(" " + n.getName());
+			}
+		}
+		output.println();
+
   		// ___ = graphs.get(graphName);
   		// ___ = nodes.get(sourceArgs.get(i));
   		// ___ = nodes.get(destArgs.get(i));
