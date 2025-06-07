@@ -74,7 +74,6 @@ public class GraphTests extends ScriptFileTests {
         assertTrue(g.listChildren("Solo").isEmpty());
     }
 
-    // test most simple path between two connected nodes
     @Test
     public void testShortestPathDirectConnection() {
         Graph g = new Graph();
@@ -82,16 +81,23 @@ public class GraphTests extends ScriptFileTests {
         g.addNode("B", 2);
         g.addEdge("A", "B");
 
-        List<String> starts = List.of("A");
-        List<String> goals = List.of("B");
+        WeightedNode start = new WeightedNode("A", g.getCost("A"));
+        WeightedNodePath startPath = new WeightedNodePath(start);
+        WeightedNode goal = new WeightedNode("B", g.getCost("B"));
 
-        WeightedNodePath path = PathFinder.findShortestPath(g, starts, goals);
+        WeightedNodePath path = PathFinder.findShortestPath(
+                g,
+                List.of(startPath),
+                Set.of(goal),
+                WeightedNode::new,
+                WeightedNode::getName
+        );
+
         assertNotNull(path);
         assertEquals(3.0, path.getCost(), 0.001);
         assertEquals("B", path.getEnd().getName());
     }
 
-    // test most simple path between two connected nodes
     @Test
     public void testEmptyStarts() {
         Graph g = new Graph();
@@ -99,14 +105,19 @@ public class GraphTests extends ScriptFileTests {
         g.addNode("B", 2);
         g.addEdge("A", "B");
 
-        List<String> starts = List.of();
-        List<String> goals = List.of("B");
+        WeightedNode goal = new WeightedNode("B", g.getCost("B"));
 
-        WeightedNodePath path = PathFinder.findShortestPath(g, starts, goals);
+        WeightedNodePath path = PathFinder.findShortestPath(
+                g,
+                List.<WeightedNodePath>of(), // empty starts
+                Set.of(goal),
+                WeightedNode::new,
+                WeightedNode::getName
+        );
+
         assertNull(path);
     }
 
-    // test most simple path between two connected nodes
     @Test
     public void testEmptyGoals() {
         Graph g = new Graph();
@@ -114,14 +125,20 @@ public class GraphTests extends ScriptFileTests {
         g.addNode("B", 2);
         g.addEdge("A", "B");
 
-        List<String> starts = List.of("A");
-        List<String> goals = List.of();
+        WeightedNode start = new WeightedNode("A", g.getCost("A"));
+        WeightedNodePath startPath = new WeightedNodePath(start);
 
-        WeightedNodePath path = PathFinder.findShortestPath(g, starts, goals);
+        WeightedNodePath path = PathFinder.findShortestPath(
+                g,
+                List.of(startPath),
+                Set.of(), // empty goals
+                WeightedNode::new,
+                WeightedNode::getName
+        );
+
         assertNull(path);
     }
 
-    // test path in chain of nodes
     @Test
     public void testShortestPathViaIntermediate() {
         Graph g = new Graph();
@@ -131,29 +148,43 @@ public class GraphTests extends ScriptFileTests {
         g.addEdge("A", "B");
         g.addEdge("B", "C");
 
-        List<String> starts = List.of("A");
-        List<String> goals = List.of("C");
+        WeightedNode start = new WeightedNode("A", g.getCost("A"));
+        WeightedNodePath startPath = new WeightedNodePath(start);
+        WeightedNode goal = new WeightedNode("C", g.getCost("C"));
 
-        WeightedNodePath path = PathFinder.findShortestPath(g, starts, goals);
+        WeightedNodePath path = PathFinder.findShortestPath(
+                g,
+                List.of(startPath),
+                Set.of(goal),
+                WeightedNode::new,
+                WeightedNode::getName
+        );
+
         assertNotNull(path);
         assertEquals(6.0, path.getCost(), 0.001);
         assertEquals("C", path.getEnd().getName());
     }
 
-    // test no path available
     @Test
     public void testNoPathToGoal() {
         Graph g = new Graph();
         g.addNode("A", 1);
         g.addNode("B", 2);
         g.addNode("C", 3);
-        g.addEdge("A", "B");
-        // no edge to C
+        g.addEdge("A", "B"); // no connection to C
 
-        List<String> starts = List.of("A");
-        List<String> goals = List.of("C");
+        WeightedNode start = new WeightedNode("A", g.getCost("A"));
+        WeightedNodePath startPath = new WeightedNodePath(start);
+        WeightedNode goal = new WeightedNode("C", g.getCost("C"));
 
-        WeightedNodePath path = PathFinder.findShortestPath(g, starts, goals);
+        WeightedNodePath path = PathFinder.findShortestPath(
+                g,
+                List.of(startPath),
+                Set.of(goal),
+                WeightedNode::new,
+                WeightedNode::getName
+        );
+
         assertNull(path);
     }
 }

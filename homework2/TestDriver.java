@@ -297,7 +297,24 @@ public class TestDriver {
   	private void findPath(String graphName, List<String> sourceArgs,
   						  List<String> destArgs) {
   		Graph g = graphs.get(graphName);
-		WeightedNodePath shortestPath = PathFinder.findShortestPath(g, sourceArgs, destArgs);
+		  List<WeightedNodePath> starts = new ArrayList<WeightedNodePath>();
+		  for (String start: sourceArgs) {
+			  starts.add(new WeightedNodePath(new WeightedNode(start, g.getCost(start))));
+		  }
+
+		  Set<WeightedNode> goals = new HashSet<WeightedNode>();
+		  for (String goal: destArgs) {
+			  goals.add(new WeightedNode(goal, g.getCost(goal)));
+		  }
+
+		WeightedNodePath shortestPath = PathFinder.findShortestPath(
+				g,
+				starts,
+				goals,
+				WeightedNode::new,
+				WeightedNode::getName
+		);
+
   		output.print("shortest path in " + graphName + ":");
 		if (shortestPath != null) {
 			for (WeightedNode n: shortestPath) {
@@ -305,12 +322,6 @@ public class TestDriver {
 			}
 		}
 		output.println();
-
-  		// ___ = graphs.get(graphName);
-  		// ___ = nodes.get(sourceArgs.get(i));
-  		// ___ = nodes.get(destArgs.get(i));
-  		// output.println(...);
-		
   	}
 
 
