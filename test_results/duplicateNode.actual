@@ -1,0 +1,4 @@
+created graph G
+created node X with cost 5
+added node X to G
+Exception: java.lang.IllegalArgumentException: Invalid node name, cost or duplicate node name

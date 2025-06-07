@@ -1,0 +1,33 @@
+# dry graph: A(2), B(1), C(3), D(1), E(4)
+created node A with cost 2
+created node B with cost 1
+created node C with cost 3
+created node D with cost 1
+created node E with cost 4
+
+created graph G
+
+added node A to G
+added node B to G
+added node C to G
+added node D to G
+added node E to G
+
+# directed edges
+added edge from A to B in G
+added edge from A to C in G
+added edge from B to D in G
+added edge from B to C in G
+added edge from C to D in G
+added edge from C to E in G
+added edge from D to E in G
+
+# (optional) inspection commands
+G contains: A B C D E
+the children of A in G are: B C
+the children of B in G are: C D
+the children of C in G are: D E
+the children of D in G are: E
+
+# query: shortest path from A to E
+shortest path in G: A B D E

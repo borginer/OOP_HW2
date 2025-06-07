@@ -1,0 +1,10 @@
+created graph G
+created node A with cost 1
+created node B with cost 2
+created node C with cost 3
+added node A to G
+added node B to G
+added node C to G
+added edge from A to B in G
+added edge from A to C in G
+the children of A in G are: B C

@@ -12,6 +12,9 @@ public class PathFinder {
      * @param g              the graph to search
      * @param starts  a list of paths, each containing a single starting node
      * @param goals          the set of goal node names
+     * @param nameExtractor  returns the name of the node in the graph
+     * @requires that g, starts, goals, nodeFactory, nameExtractor are all non-null,
+     * they can however be an empty list, set, etc.
      * @return the shortest path, or null if no path found (can also be no starts/goals)
      */
     public static <N, P extends Path<N, P> & Comparable<Path<?, ?>>>
@@ -25,7 +28,6 @@ public class PathFinder {
 
         // Initialize queue with all start paths
         for (P path : starts) {
-            N startNode = path.getEnd();
             active.add(path);
         }
 

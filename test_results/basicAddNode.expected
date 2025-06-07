@@ -1,0 +1,4 @@
+created graph G
+created node A with cost 5
+added node A to G
+G contains: A
